@@ -1,0 +1,31 @@
+DESCRIPTION = "IOzone is a filesystem benchmark tool."
+# The license (http://www.iozone.org/docs/Iozone_License.txt) at first
+# glance looks like some BSD/MIT thing, but it says »The author
+# retains the exclusive right to publish derivative works«.
+LICENSE = "?"
+SRC_URI = "http://www.iozone.org/src/current/iozone3_${PV}.tar;unpack=tar"
+
+inherit make c
+
+DEPENDS += "librt"
+DEPENDS_${PN} = "libc libpthread librt"
+RDEPENDS_${PN} = "libc libpthread librt"
+
+# "man preadv" says "preadv() and pwritev() first appeared in Linux
+# 2.6.30", so we can safely assume the target has those.
+CFLAGS += "-DHAVE_PREADV -DHAVE_PWRITEV"
+
+S = "${SRCDIR}/${PN}_${PV}/src/current"
+
+do_compile() {
+  oe_runmake -e linux
+}
+
+do_install() {
+  install -m 0755 -d ${D}${bindir}
+  install ${S}/iozone ${D}${bindir}
+  install ${S}/fileop ${D}${bindir}
+  install ${S}/pit_server ${D}${bindir}
+  install -m 0755 -d ${D}${mandir}/man1
+  install ${S}/../../docs/iozone.1 ${D}${mandir}/man1
+}
