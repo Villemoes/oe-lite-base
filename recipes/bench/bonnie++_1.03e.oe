@@ -1,0 +1,23 @@
+DESCRIPTION = """Bonnie++ is a benchmark suite that is aimed at
+  performing a number of simple tests of hard drive and file system
+  performance."""
+
+HOMEPAGE = "http://www.coker.com.au/bonnie++/"
+LICENSE = "GPL-2.0"
+
+SRC_URI = "http://www.coker.com.au/bonnie++/${PN}-${PV}.tgz"
+
+inherit autotools c++
+
+SCRIPTS = "bon_csv2html bon_csv2txt"
+EXES = "bonnie++ zcav"
+
+do_install () {
+        install -d ${D}${bindir}
+        install -d ${D}${sbindir}
+        install -m 0755 ${EXES} ${D}${sbindir}
+        install -m 0755 ${SCRIPTS} ${D}${bindir}
+}
+
+DEPENDS_${PN} += "libc libgcc libm libstdc++"
+RDEPENDS_${PN} += "libc libgcc libm libstdc++"
