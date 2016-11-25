@@ -1,0 +1,18 @@
+DESCRIPTION = "The dbench (disk) and tbench (TCP) benchmarks"
+HOMEPAGE = "https://dbench.samba.org/"
+LICENSE = "GPL-3.0"
+
+SRC_URI = "https://www.samba.org/ftp/tridge/dbench/dbench-${PV}.tar.gz"
+
+SRC_URI += "file://0001-Makefile.in-prepend-DESTDIR-to-install-targets.patch"
+
+inherit autotools-autoreconf
+
+DEPENDS += "libc libpopt"
+DEPENDS_${PN} += "libc libpopt"
+RDEPENDS_${PN} += "libc libpopt"
+
+# client.txt is a rather generic name, avoid putting it in /usr/share
+# directly, use /usr/share/dbench. That directory is also already
+# included in FILES_${PN} by default.
+EXTRA_OECONF += "--datadir=${datadir}/${PN}"

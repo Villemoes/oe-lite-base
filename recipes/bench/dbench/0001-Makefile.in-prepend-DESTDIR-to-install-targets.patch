@@ -1,0 +1,40 @@
+From 4f3fbbb1e609dfe73bdd30f9a014d059c1381315 Mon Sep 17 00:00:00 2001
+From: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
+Date: Thu, 24 Nov 2016 14:56:55 +0100
+Subject: [PATCH] Makefile.in: prepend $(DESTDIR) to install targets
+
+For some reason this Makefile.in doesn't follow the normal
+convention. This fixes "make install".
+
+Upstream-status: not submitted
+Signed-off-by: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
+---
+ Makefile.in | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/Makefile.in b/Makefile.in
+index ad885e2..4aae98c 100644
+--- a/Makefile.in
++++ b/Makefile.in
+@@ -32,12 +32,12 @@ tbench_srv: $(SRV_OBJS)
+ 
+ # Careful here: don't install client.txt over itself.
+ install: all
+-	${INSTALLCMD} -d $(bindir) $(datadir) $(mandir)
+-	${INSTALLCMD} dbench tbench tbench_srv $(bindir)
+-	${INSTALLCMD} client.txt $(datadir)
+-	${INSTALLCMD} -m644 dbench.1 $(mandir)
+-	ln -sf dbench.1 $(mandir)/tbench.1
+-	ln -sf dbench.1 $(mandir)/tbench_srv.1
++	${INSTALLCMD} -d $(DESTDIR)$(bindir) $(DESTDIR)$(datadir) $(DESTDIR)$(mandir)
++	${INSTALLCMD} dbench tbench tbench_srv $(DESTDIR)$(bindir)
++	${INSTALLCMD} client.txt $(DESTDIR)$(datadir)
++	${INSTALLCMD} -m 644 dbench.1 $(DESTDIR)$(mandir)
++	ln -sf dbench.1 $(DESTDIR)$(mandir)/tbench.1
++	ln -sf dbench.1 $(DESTDIR)$(mandir)/tbench_srv.1
+ 
+ clean:
+ 	rm -f *.o *~ dbench tbench tbench_srv
+-- 
+2.7.4
+
