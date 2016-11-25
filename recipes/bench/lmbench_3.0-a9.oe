@@ -1,0 +1,35 @@
+DESCRIPTION = "Tools for performance analysis"
+HOMEPAGE = "http://lmbench.sourceforge.net/"
+LICENSE = "GPL-2.0 & GPL-2.0-with-lmbench-restriction"
+
+require conf/fetch/sourceforge.conf
+
+SRC_URI = "${SOURCEFORGE_MIRROR}/lmbench/lmbench-${PV}.tgz"
+
+RECIPE_TYPES = "machine native"
+
+inherit c make
+
+EXTRA_OEMAKE = 'CC="${CC}" AR="${AR}" RANLIB="${RANLIB}" CFLAGS="${CFLAGS}" \
+	        LDFLAGS="${LDFLAGS}" LD="${LD}" OS="${TARGET_ARCH}" \
+ 		TARGET=linux BASE="${prefix}" MANDIR="${mandir}"'
+
+DEPENDS += "libc libm"
+DEPENDS_${PN} += "libc libm"
+RDEPENDS_${PN} += "libc libm"
+
+do_compile() {
+  oe_runmake -C src
+}
+
+do_install() {
+    oe_runmake BASE="${D}${prefix}" MANDIR="${D}${mandir}" \
+        -C src install
+
+    mv ${D}${bindir}/line ${D}${bindir}/lm_line
+
+    install -m 0755 -d ${D}${bindir} ${D}${datadir}/lmbench/scripts
+
+    install -m 0755 ${S}/scripts/lmbench ${D}${bindir}
+    install -m 0755 ${S}/scripts/* ${D}${datadir}/lmbench/scripts
+}
