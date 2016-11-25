@@ -1,0 +1,20 @@
+SUMMARY = "Phoronix Test Suite"
+DESCRIPTION = "The Phoronix Test Suite is designed to carry out both qualitative \
+and quantitative benchmarks in a clean, reproducible, and easy-to-use manner."
+
+LICENSE = "GPL-3.0"
+
+SRC_URI = "http://www.phoronix-test-suite.com/releases/phoronix-test-suite-${PV}.tar.gz"
+
+S = "${SRCDIR}/${PN}"
+
+do_install() {
+    DESTDIR=${D} ./install-sh ${exec_prefix}
+}
+
+PACKAGES += "${PN}-desktop"
+FILES_${PN}-desktop += "/usr/share/appdata /usr/share/applications /usr/share/icons /usr/share/mime"
+PACKAGES += "${PN}-systemd"
+FILES_${PN}-desktop += "/usr/lib/systemd"
+
+RDEPENDS_${PN} += "php"
