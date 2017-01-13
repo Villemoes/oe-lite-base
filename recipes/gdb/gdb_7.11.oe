@@ -18,3 +18,5 @@ MUSL_MAKE:HOST_LIBC_musl = "gt_cv_func_gnugettext1_libc=yes \
                             gt_cv_func_gnugettext2_libc=yes \
                             "
 CFLAGS:>HOST_LIBC_musl += " -Drpl_gettimeofday=gettimeofday"
+
+PRIORITY = "-1"
