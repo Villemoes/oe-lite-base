@@ -5,7 +5,7 @@ COMPATIBLE_HOST_ARCHS = ".*linux"
 inherit autotools auto-package-utils auto-package-libs
 
 DEPENDS += "libpthread libdl"
-DEPENDS_${PN} += "libpthread libdl"
+#DEPENDS_${PN} += "libpthread libdl"
 
 require conf/fetch/sourceforge.conf
 SRC_URI = "${SOURCEFORGE_MIRROR}/lksctp/lksctp-tools-${PV}.tar.gz"
@@ -21,6 +21,8 @@ DEPENDS_${PN}-sctp-status += "libsctp"
 RDEPENDS_${PN}-sctp-status += "libsctp"
 DEPENDS_${PN}-sctp-test += "libsctp"
 RDEPENDS_${PN}-sctp-test += "libsctp"
+
+FILES_${PN}-withsctp += "${libdir}/${PN}"
 
 PACKAGES =+ "${PN}-examples"
 FILES_${PN}-examples = "${datadir}/${PN}"
