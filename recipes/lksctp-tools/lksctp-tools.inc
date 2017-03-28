@@ -21,3 +21,6 @@ DEPENDS_${PN}-sctp-status += "libsctp"
 RDEPENDS_${PN}-sctp-status += "libsctp"
 DEPENDS_${PN}-sctp-test += "libsctp"
 RDEPENDS_${PN}-sctp-test += "libsctp"
+
+PACKAGES =+ "${PN}-examples"
+FILES_${PN}-examples = "${datadir}/${PN}"
